@@ -37,6 +37,27 @@ void addEdge(struct Graph* graph, int s, int d)
 {
     // Add edge from s to d
     struct node* newNode = createNode(d);
+    struct node* cur = graph->adjLists[s];
+    
+    while(cur != NULL)
+    {
+        
+        cur = cur->next;
+        newNode->next = cur;
+        graph->adjLists[s] = newNode;
+
+    }
+    // Add edge from d to s
+    cur = graph->adjLists[d];
+    while(cur->vertex > s)
+        cur = cur->next;
+    newNode = createNode(s);
+    newNode->next = cur;
+    graph->adjLists[d] = newNode;
+    
+
+ /*   // Add edge from s to d
+    struct node* newNode = createNode(d);
     newNode->next = graph->adjLists[s];
     graph->adjLists[s] = newNode;
 
@@ -44,6 +65,7 @@ void addEdge(struct Graph* graph, int s, int d)
     newNode = createNode(s);
     newNode->next = graph->adjLists[d];
     graph->adjLists[d] = newNode;
+ */
 }
 
 // Print the graph
