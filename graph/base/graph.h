@@ -11,15 +11,15 @@ struct node* createNode(int v);
 struct Graph {
     int numVertices;
     int *visited;
-    struct node** adjLists;
+    struct node** adj;
 };
 
 
 struct node* createNode(int v);
 struct Graph* createGraph(int vertices);
-void addEdge(struct Graph* graph, int s, int d);
-void printGraph(struct Graph* graph);
-void free_graph(struct Graph* graph);
+void addEdge(struct Graph* g, int s, int d);
+void printGraph(struct Graph* g);
+void free_graph(struct Graph* g);
 
 
 #endif

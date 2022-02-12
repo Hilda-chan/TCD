@@ -13,68 +13,91 @@ struct node* createNode(int v)
     return newNode;
 }
 
-// Create a graph
+// Create a g
 struct Graph* createGraph(int vertices)
 {
-    struct Graph* graph = malloc(sizeof(struct Graph));
-    graph->numVertices = vertices;
+    struct Graph* g = malloc(sizeof(struct Graph));
+    g->numVertices = vertices;
 
-    graph->adjLists = malloc(vertices * sizeof(struct node*));
-    graph->visited = malloc(vertices * sizeof(int));
+    g->adj = malloc(vertices * sizeof(struct node*));
+    g->visited = malloc(vertices * sizeof(int));
 
     int i;
     for (i = 0; i < vertices; i++)
     {
-        graph->adjLists[i] = NULL;
-        graph->visited[i] = 0;
+        g->adj[i] = NULL;
+        g->visited[i] = 0;
     }
 
-    return graph;
+    return g;
 }
 
 // Add edge
-void addEdge(struct Graph* graph, int s, int d)
+void addEdge(struct Graph* g, int s, int d)
 {
+    
     // Add edge from s to d
     struct node* newNode = createNode(d);
-    struct node* cur = graph->adjLists[s];
-    
-    while(cur != NULL)
-    {
-        
-        cur = cur->next;
-        newNode->next = cur;
-        graph->adjLists[s] = newNode;
+    struct node* cur = g->adj[s];
+    struct node* prev;
 
+    if(cur == NULL)
+        g->adj[s] = newNode;
+    else
+    {
+        while(cur->next && cur->vertex < d)
+        {
+            prev = cur;
+            cur = cur->next;
+        }
+        if(cur->next == NULL && cur->vertex < d)
+            cur->next = newNode;
+        else if (cur->vertex > d)
+        {
+            prev->next = newNode;
+            newNode->next = cur;
+        }
     }
     // Add edge from d to s
-    cur = graph->adjLists[d];
-    while(cur->vertex > s)
-        cur = cur->next;
-    newNode = createNode(s);
-    newNode->next = cur;
-    graph->adjLists[d] = newNode;
-    
+     newNode = createNode(s);
+     cur = g->adj[d];
 
- /*   // Add edge from s to d
+    if(cur == NULL)
+        g->adj[d] = newNode;
+    else
+    {
+        while(cur->next && cur->vertex < s)
+        {
+            prev = cur;
+            cur = cur->next;
+        }
+        if(cur->next == NULL && cur->vertex < s)
+            cur->next = newNode;
+        else if (cur->vertex > s)
+        {
+            prev->next = newNode;
+            newNode->next = cur;
+        }
+    }
+  /*  // Add edge from s to d
     struct node* newNode = createNode(d);
-    newNode->next = graph->adjLists[s];
-    graph->adjLists[s] = newNode;
+    newNode->next = g->adj[s];
+    g->adj[s] = newNode;
 
     // Add edge from d to s
     newNode = createNode(s);
-    newNode->next = graph->adjLists[d];
-    graph->adjLists[d] = newNode;
+    newNode->next = g->adj[d];
+    g->adj[d] = newNode;
  */
 }
 
-// Print the graph
-void printGraph(struct Graph* graph) 
+// Print the g
+void printGraph(struct Graph* g) 
 {
     int v;
-    for (v = 0; v < graph->numVertices; v++) 
+    for (v = 0; v < g->numVertices; v++) 
     {
-        struct node* temp = graph->adjLists[v];
+        struct node* temp = g->adj[v];
         printf("\n Vertex %d\n: ", v);
         while (temp) 
         {
@@ -85,11 +108,11 @@ void printGraph(struct Graph* graph)
     }
 }
 
-void free_graph(struct Graph* graph)
+void free_graph(struct Graph* g)
 {
-    for (int v = 0; v < graph->numVertices; v++)
+    for (int v = 0; v < g->numVertices; v++)
     {
-        struct node* temp = graph->adjLists[v];
+        struct node* temp = g->adj[v];
         while (temp)
         {
             struct node* tmp = temp->next;
@@ -97,8 +120,8 @@ void free_graph(struct Graph* graph)
             temp = tmp;
         }
     }
-    free(graph->visited);
-    free(graph->adjLists);
-    free(graph);
+    free(g->visited);
+    free(g->adj);
+    free(g);
 }
 
