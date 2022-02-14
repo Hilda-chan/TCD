@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "graph.h"
+#include "graphviz/cgraph.h"
 
 // Create a node
 struct node* createNode(int v)
@@ -28,7 +29,6 @@ struct Graph* createGraph(int vertices)
         g->adj[i] = NULL;
         g->visited[i] = 0;
     }
-
     return g;
 }
 
@@ -79,16 +79,6 @@ void addEdge(struct Graph* g, int s, int d)
             newNode->next = cur;
         }
     }
-  /*  // Add edge from s to d
-    struct node* newNode = createNode(d);
-    newNode->next = g->adj[s];
-    g->adj[s] = newNode;
-
-    // Add edge from d to s
-    newNode = createNode(s);
-    newNode->next = g->adj[d];
-    g->adj[d] = newNode;
- */
 }
 
 // Print the g
@@ -106,6 +96,7 @@ void printGraph(struct Graph* g)
         }
         printf("\n");
     }
+
 }
 
 void free_graph(struct Graph* g)

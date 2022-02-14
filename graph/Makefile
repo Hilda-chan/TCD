@@ -1,21 +1,19 @@
 CC=gcc
 CPPFLAGS=
-CFLAGS=-Wall -Wextra -pedantic -std=c99 -g
-LDFLAGS=
+CFLAGS=-Wall -Wextra -pedantic -std=c99 -g `pkg-config libgvc --cflags`
+LDFLAGS=`pkg-config  libgvc --cflags` -lcgraph -lgvc
 LDLIBS=
 EXEC= prog
 
 SRC= base/graph.c queue/queue.c dfs/dfs.c bfs/bfs.c main.c
-SRC2= 
 OBJ= ${SRC:.c=.o}
-OBJ2= ${SRC2:.c=.o}
 
 all: ${EXEC}
 
 ${EXEC}: ${OBJ}
 
 prog:${OBJ}
-	${CC} $^ -o prog
+	${CC} $^ -o prog $(CFLAGS) $(LDFLAGS)
 
 
 clean:

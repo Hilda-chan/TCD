@@ -18,7 +18,7 @@ void bfs(struct Graph* graph, int startVertex)
     int currentVertex = dequeue(q);
     printf("Visited %d\n", currentVertex);
 
-    struct node* temp = graph->adjLists[currentVertex];
+    struct node* temp = graph->adj[currentVertex];
 
     while (temp) {
       int adjVertex = temp->vertex;
