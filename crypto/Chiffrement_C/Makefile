@@ -4,7 +4,7 @@ CPPFLAGS =-O2
 LDLIBS=
 
 
-SRC = caesar.c
+SRC = caesar.c Tools.c
 OBJ = ${SRC:.c=.o}
 DEP = ${SRC:.c=.d}
 
